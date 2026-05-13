@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Expression Generator - Free Online Cron Job Scheduler Tool</title>
+    <meta name="description" content="Free online cron expression generator and parser. Build cron schedules visually, validate expressions, and see next execution times. Perfect for developers and system administrators.">
+    <meta name="keywords" content="cron expression generator, cron parser, cron job scheduler, cron schedule, crontab, unix cron, cron converter">
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE">
+    <meta name="robots" content="index, follow">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: #667eea;
+        }
+        
+        .tool-box {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .cron-output {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .cron-output .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .cron-output .expression {
+            font-size: 1.8rem;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            word-break: break-all;
+        }
+        
+        .cron-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .field-group {
+            text-align: center;
+        }
+        
+        .field-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #667;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .field-group select, .field-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .field-group select:focus, .field-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .preset-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preset-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .result-box {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+        
+        .result-box .label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .result-box.error {
+            background: #fee;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .result-box.success {
+            background: #e8f5e9;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .next-runs {
+            margin-top: 15px;
+        }
+        
+        .next-runs .run-item {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .next-runs .run-number {
+            background: #667eea;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        
+        .divider {
+            border: none;
+            border-top: 1px dashed #ddd;
+            margin: 30px 0;
+        }
+        
+        .tips {
+            background: #e8f0fe;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        
+        .tips strong {
+            color: #667eea;
+        }
+        
+        /* Parser Section */
+        .parser-section {
+            margin-top: 30px;
+        }
+        
+        .parser-section textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .parser-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .human-readable {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .faq-item {
+            margin-bottom: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 16px;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .copy-feedback {
+            color: #27ae60;
+            font-size: 0.85rem;
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .copy-feedback.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>⏰ Cron Expression Generator</h1>
+            <p>Free Online Cron Job Scheduler - Build & Parse Cron Expressions</p>
+        </header>
+        
+        <div class="tool-box">
+            <!-- Generator Section -->
+            <h2 class="section-title" id="genTitle">📅 Cron Expression Generator</h2>
+            
+            <div class="tips" id="tipsBox">
+                <strong>💡 Tip:</strong> <span id="tipsText">A cron expression has 5 fields: minute, hour, day of month, month, day of week. Click a preset or adjust the fields below.</span>
+            </div>
+            
+            <div class="cron-output">
+                <div class="label" id="outputLabel">Your Cron Expression</div>
+                <div class="expression" id="cron-expression">* * * * *</div>
+                <button class="btn-secondary" style="margin-top:10px;" onclick="copyExpression()" id="copyBtn">📋 Copy Expression</button>
+                <span class="copy-feedback" id="copyFeedback">Copied!</span>
+            </div>
+            
+            <!-- Presets -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight:600; color:#333; display:block; margin-bottom:10px;" id="presetLabel">Quick Presets</label>
+                <div class="presets">
+                    <button class="preset-btn" onclick="setPreset('* * * * *')">Every minute</button>
+                    <button class="preset-btn" onclick="setPreset('0 * * * *')">Every hour</button>
+                    <button class="preset-btn" onclick="setPreset('0 0 * * *')">Daily midnight</button>
+                    <button class="preset-btn" onclick="setPreset('0 9 * * *')">Daily 9 AM</button>
+                    <button class="preset-btn" onclick="setPreset('0 9 * * 1-5')">Weekdays 9 AM</button>
+                    <button class="preset-btn" onclick="setPreset('0 0 * * 0')">Weekly (Sunday)</button>
+                    <button class="preset-btn" onclick="setPreset('0 0 1 * *')">Monthly (1st)</button>
+                    <button class="preset-btn" onclick="setPreset('0 0 1 1 *')">Yearly (Jan 1st)</button>
+                    <button class="preset-btn" onclick="setPreset('*/5 * * * *')">Every 5 minutes</button>
+                    <button class="preset-btn" onclick="setPreset('*/15 * * * *')">Every 15 minutes</button>
+                    <button class="preset-btn" onclick="setPreset('0 */2 * * *')">Every 2 hours</button>
+                </div>
+            </div>
+            
+            <!-- Fields -->
+            <div class="cron-fields">
+                <div class="field-group">
+                    <label>Minute (0-59)</label>
+                    <select id="field-minute" onchange="updateExpression()">
+                        <option value="*">Every minute (*)</option>
+                        <option value="*/5">Every 5 min (*/5)</option>
+                        <option value="*/10">Every 10 min (*/10)</option>
+                        <option value="*/15">Every 15 min (*/15)</option>
+                        <option value="*/30">Every 30 min (*/30)</option>
+                        <option value="0">At minute 0</option>
+                        <option value="30">At minute 30</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Hour (0-23)</label>
+                    <select id="field-hour" onchange="updateExpression()">
+                        <option value="*">Every hour (*)</option>
+                        <option value="*/2">Every 2 hours (*/2)</option>
+                        <option value="*/4">Every 4 hours (*/4)</option>
+                        <option value="*/6">Every 6 hours (*/6)</option>
+                        <option value="*/12">Every 12 hours (*/12)</option>
+                        <option value="0">0 (Midnight)</option>
+                        <option value="6">6 AM</option>
+                        <option value="9">9 AM</option>
+                        <option value="12">12 PM</option>
+                        <option value="18">6 PM</option>
+                        <option value="23">11 PM</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Day of Month (1-31)</label>
+                    <select id="field-day" onchange="updateExpression()">
+                        <option value="*">Every day (*)</option>
+                        <option value="1">1st of month</option>
+                        <option value="15">15th of month</option>
+                        <option value="1,15">1st and 15th</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Month (1-12)</label>
+                    <select id="field-month" onchange="updateExpression()">
+                        <option value="*">Every month (*)</option>
+                        <option value="1">January</option>
+                        <option value="1,4,7,10">Quarterly</option>
+                        <option value="6,7,8">Summer</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Day of Week (0-6)</label>
+                    <select id="field-weekday" onchange="updateExpression()">
+                        <option value="*">Every day (*)</option>
+                        <option value="1-5">Weekdays (Mon-Fri)</option>
+                        <option value="0,6">Weekends (Sat-Sun)</option>
+                        <option value="1">Monday</option>
+                        <option value="5">Friday</option>
+                        <option value="0">Sunday</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Next Runs -->
+            <h3 style="margin: 25px 0 15px; color:#333;" id="nextRunsTitle">Next 10 Execution Times</h3>
+            <div class="next-runs" id="next-runs"></div>
+            
+            <hr class="divider">
+            
+            <!-- Parser Section -->
+            <div class="parser-section">
+                <h2 class="section-title" id="parseTitle">🔍 Cron Expression Parser</h2>
+                
+                <div class="tips" id="tips2Box">
+                    <strong>💡 Tip:</strong> <span id="tips2Text">Paste an existing cron expression to see its human-readable meaning and next execution times.</span>
+                </div>
+                
+                <label style="font-weight:600; color:#333; display:block; margin-bottom:10px;" id="inputLabel">Enter Cron Expression</label>
+                <textarea id="cron-input" placeholder="e.g., 0 9 * * 1-5">0 9 * * 1-5</textarea>
+                
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="parseExpression()" id="parseBtn">Parse Expression</button>
+                    <button class="btn-secondary" onclick="validateExpression()" id="validateBtn">Validate</button>
+                </div>
+                
+                <div id="parse-result"></div>
+            </div>
+            
+            <!-- Cron Guide -->
+            <hr class="divider">
+            
+            <h2 class="section-title" id="guideTitle">📚 Cron Expression Guide</h2>
+            
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse: collapse; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding:12px; text-align:left;">Field</th>
+                            <th style="padding:12px; text-align:left;">Allowed Values</th>
+                            <th style="padding:12px; text-align:left;">Special Characters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding:12px;">Minute</td>
+                            <td style="padding:12px; font-family:monospace;">0-59</td>
+                            <td style="padding:12px; font-family:monospace;">* , - /</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:12px;">Hour</td>
+                            <td style="padding:12px; font-family:monospace;">0-23</td>
+                            <td style="padding:12px; font-family:monospace;">* , - /</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding:12px;">Day of Month</td>
+                            <td style="padding:12px; font-family:monospace;">1-31</td>
+                            <td style="padding:12px; font-family:monospace;">* , - /</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:12px;">Month</td>
+                            <td style="padding:12px; font-family:monospace;">1-12</td>
+                            <td style="padding:12px; font-family:monospace;">* , - /</td>
+                        </tr>
+                        <tr style="background: #f8f9fa;">
+                            <td style="padding:12px;">Day of Week</td>
+                            <td style="padding:12px; font-family:monospace;">0-6 (0=Sunday)</td>
+                            <td style="padding:12px; font-family:monospace;">* , - /</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                <h4 style="margin-bottom: 10px; color: #333;" id="specialCharsTitle">Special Characters</h4>
+                <ul style="list-style: none; font-size: 0.9rem; line-height: 1.8;">
+                    <li><code style="background:#e0e0e0; padding:2px 6px; border-radius:4px;">*</code> - Any value</li>
+                    <li><code style="background:#e0e0e0; padding:2px 6px; border-radius:4px;">,</code> - Value list separator (1,3,5)</li>
+                    <li><code style="background:#e0e0e0; padding:2px 6px; border-radius:4px;">-</code> - Range of values (1-5)</li>
+                    <li><code style="background:#e0e0e0; padding:2px 6px; border-radius:4px;">/</code> - Step values (*/15)</li>
+                </ul>
+            </div>
+            
+            <div class="faq-section" style="margin-top: 30px; box-shadow: none; border: 1px solid #eee;">
+                <h2 id="faqTitle">❓ Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq1Q">What is a cron expression?</div>
+                    <div class="faq-answer" id="faq1A">A cron expression is a string of 5 fields that defines when a scheduled task should run. Each field represents minute, hour, day of month, month, and day of week.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq2Q">How do I read a cron expression?</div>
+                    <div class="faq-answer" id="faq2A">The format is: minute hour day-of-month month day-of-week. For example, "0 9 * * 1-5" means "at 9:00 AM, every day of month, every month, Monday through Friday."</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq3Q">What does the asterisk (*) mean?</div>
+                    <div class="faq-answer" id="faq3A">An asterisk means "every possible value". So "* * * * *" means "every minute of every hour of every day" - essentially every minute.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq4Q">What do the day numbers mean?</div>
+                    <div class="faq-answer" id="faq4A">In cron, 0-6 represent days of the week: 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq5Q">How do I run a job every 5 minutes?</div>
+                    <div class="faq-answer" id="faq5A">Use "*/5 * * * *". The "*/5" means "every 5 units" - in this case, every 5 minutes. You can use any interval like */10, */15, */30.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq6Q">Can I specify multiple days?</div>
+                    <div class="faq-answer" id="faq6A">Yes! Use commas for specific days (1,3,5) or hyphens for ranges (1-5). For example, "0 9 * * 1,3,5" runs at 9 AM on Monday, Wednesday, and Friday.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" id="faq7Q">Is this tool free to use?</div>
+                    <div class="faq-answer" id="faq7A">Yes! This cron expression generator is completely free and all processing happens in your browser. Your data never leaves your device.</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2026 <a href="https://texthumanify.vercel.app">TextHumanify</a> - Free Online Developer Tools</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 语言包
+        const i18n = {
+            en: {
+                footer: '© 2026 <a href="https://texthumanify.vercel.app">TextHumanify</a> - Free Online Developer Tools',
+                genTitle: '📅 Cron Expression Generator',
+                parseTitle: '🔍 Cron Expression Parser',
+                guideTitle: '📚 Cron Expression Guide',
+                tipsText: 'A cron expression has 5 fields: minute, hour, day of month, month, day of week. Click a preset or adjust the fields below.',
+                tips2Text: 'Paste an existing cron expression to see its human-readable meaning and next execution times.',
+                presetLabel: 'Quick Presets',
+                outputLabel: 'Your Cron Expression',
+                copyBtn: '📋 Copy Expression',
+                copied: 'Copied!',
+                nextRunsTitle: 'Next 10 Execution Times',
+                inputLabel: 'Enter Cron Expression',
+                parseBtn: 'Parse Expression',
+                validateBtn: 'Validate',
+                specialCharsTitle: 'Special Characters',
+                faqTitle: '❓ Frequently Asked Questions',
+                faq1Q: 'What is a cron expression?',
+                faq1A: 'A cron expression is a string of 5 fields that defines when a scheduled task should run. Each field represents minute, hour, day of month, month, and day of week.',
+                faq2Q: 'How do I read a cron expression?',
+                faq2A: 'The format is: minute hour day-of-month month day-of-week. For example, "0 9 * * 1-5" means "at 9:00 AM, every day of month, every month, Monday through Friday."',
+                faq3Q: 'What does the asterisk (*) mean?',
+                faq3A: 'An asterisk means "every possible value". So "* * * * *" means "every minute of every hour of every day" - essentially every minute.',
+                faq4Q: 'What do the day numbers mean?',
+                faq4A: 'In cron, 0-6 represent days of the week: 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday.',
+                faq5Q: 'How do I run a job every 5 minutes?',
+                faq5A: 'Use "*/5 * * * *". The "*/5" means "every 5 units" - in this case, every 5 minutes. You can use any interval like */10, */15, */30.',
+                faq6Q: 'Can I specify multiple days?',
+                faq6A: 'Yes! Use commas for specific days (1,3,5) or hyphens for ranges (1-5). For example, "0 9 * * 1,3,5" runs at 9 AM on Monday, Wednesday, and Friday.',
+                faq7Q: 'Is this tool free to use?',
+                faq7A: 'Yes! This cron expression generator is completely free and all processing happens in your browser. Your data never leaves your device.'
+            },
+            zh: {
+                footer: '© 2026 <a href="https://texthumanify.vercel.app">TextHumanify</a> - 免费在线开发者工具',
+                genTitle: '📅 Cron 表达式生成器',
+                parseTitle: '🔍 Cron 表达式解析器',
+                guideTitle: '📚 Cron 表达式指南',
+                tipsText: 'Cron 表达式有5个字段：分钟、小时、日期、月份、星期几。点击预设或调整下方字段。',
+                tips2Text: '粘贴现有的 Cron 表达式以查看其人类可读的含esterior 义和下次执行时间。',
+                presetLabel: '快速预设',
+                outputLabel: '您的 Cron 表达式',
+                copyBtn: '📋 复制表达式',
+                copied: '已复制！',
+                nextRunsTitle: '接下来10次执行时间',
+                inputLabel: '输入 Cron 表达式',
+                parseBtn: '解析表达式',
+                validateBtn: '验证',
+                specialCharsTitle: '特殊字符',
+                faqTitle: '❓ 常见问题',
+                faq1Q: '什么是 Cron 表达式？',
+                faq1A: 'Cron 表达式是一个由5个字段组成的字符串，用于定义计划任务何时运行。每个字段分别代表分钟、小时、日期、月份和星期几。',
+                faq2Q: '如何阅读 Cron 表达式？',
+                faq2A: '格式为：分钟 小时 日 月 星期。例如，"0 9 * * 1-5" 表示"每天早上9点，每月的每一天，每月的每个星期一到星期五"。',
+                faq3Q: '星号 (*) 是什么意思？',
+                faq3A: '星号表示"每个可能的值"。所以 "* * * * *" 意味着"每小时的每一分钟"——基本上就是每分钟。',
+                faq4Q: '星期几的数字代表什么？',
+                faq4A: '在 Cron 中，0-6 代表星期几：0=星期日，1=星期一，2=星期二，3=星期三，4=星期四，5=星期五，6=星期六。',
+                faq5Q: '如何设置每5分钟运行一次？',
+                faq5A: '使用 "*/5 * * * *"。"/5" 表示"每5个单位"——这里指每5分钟。您可以使用任何间隔，如 */10、*/15、*/30。',
+                faq6Q: '我可以指定多个星期吗？',
+                faq6A: '可以！使用逗号指定特定日期（1,3,5）或使用连字符指定范围（1-5）。例如，"0 9 * * 1,3,5" 在星期一、星期三和星期五的早上9点运行。',
+                faq7Q: '这个工具免费使用吗？',
+                faq7A: '是的！这个 Cron 表达式生成器完全免费，所有处理都在您的浏览器中完成。您的数据永远不会离开您的设备。'
+            }
+        };
+
+        // 当前语言
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = i18n[lang];
+
+            // 更新语言切换按钮
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 更新文本
+            document.querySelector('footer p').innerHTML = t.footer;
+            document.getElementById('genTitle').textContent = t.genTitle;
+            document.getElementById('parseTitle').textContent = t.parseTitle;
+            document.getElementById('guideTitle').textContent = t.guideTitle;
+            document.getElementById('tipsText').textContent = t.tipsText;
+            document.getElementById('tips2Text').textContent = t.tips2Text;
+            document.getElementById('presetLabel').textContent = t.presetLabel;
+            document.getElementById('outputLabel').textContent = t.outputLabel;
+            document.getElementById('copyBtn').textContent = t.copyBtn;
+            document.getElementById('nextRunsTitle').textContent = t.nextRunsTitle;
+            document.getElementById('inputLabel').textContent = t.inputLabel;
+            document.getElementById('parseBtn').textContent = t.parseBtn;
+            document.getElementById('validateBtn').textContent = t.validateBtn;
+            document.getElementById('specialCharsTitle').textContent = t.specialCharsTitle;
+
+            // 更新FAQ
+            document.getElementById('faqTitle').textContent = t.faqTitle;
+            document.getElementById('faq1Q').textContent = t.faq1Q;
+            document.getElementById('faq1A').textContent = t.faq1A;
+            document.getElementById('faq2Q').textContent = t.faq2Q;
+            document.getElementById('faq2A').textContent = t.faq2A;
+            document.getElementById('faq3Q').textContent = t.faq3Q;
+            document.getElementById('faq3A').textContent = t.faq3A;
+            document.getElementById('faq4Q').textContent = t.faq4Q;
+            document.getElementById('faq4A').textContent = t.faq4A;
+            document.getElementById('faq5Q').textContent = t.faq5Q;
+            document.getElementById('faq5A').textContent = t.faq5A;
+            document.getElementById('faq6Q').textContent = t.faq6Q;
+            document.getElementById('faq6A').textContent = t.faq6A;
+            document.getElementById('faq7Q').textContent = t.faq7Q;
+            document.getElementById('faq7A').textContent = t.faq7A;
+
+            // 更新预设按钮文本
+            const presetBtns = document.querySelectorAll('.preset-btn');
+            const presetsEN = ['Every minute', 'Every hour', 'Daily midnight', 'Daily 9 AM', 'Weekdays 9 AM', 'Weekly (Sunday)', 'Monthly (1st)', 'Yearly (Jan 1st)', 'Every 5 min', 'Every 15 min', 'Every 2 hrs'];
+            const presetsZH = ['每分钟', '每小时', '每天午夜', '每天9点', '工作日9点', '每周日', '每月1号', '每年1月1日', '每5分钟', '每15分钟', '每2小时'];
+            const presets = lang === 'en' ? presetsEN : presetsZH;
+            presetBtns.forEach((btn, i) => {
+                if (presets[i]) btn.textContent = presets[i];
+            });
+
+            localStorage.setItem('cronGeneratorLang', lang);
+            updateNextRuns();
+        }
+
+        // 初始化语言
+        const savedLang = localStorage.getItem('cronGeneratorLang');
+        if (savedLang) {
+            currentLang = savedLang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === savedLang);
+            });
+        }
+
+        // 更新 Cron 表达式
+        function updateExpression() {
+            const minute = document.getElementById('field-minute').value;
+            const hour = document.getElementById('field-hour').value;
+            const day = document.getElementById('field-day').value;
+            const month = document.getElementById('field-month').value;
+            const weekday = document.getElementById('field-weekday').value;
+            
+            const expression = `${minute} ${hour} ${day} ${month} ${weekday}`;
+            document.getElementById('cron-expression').textContent = expression;
+            document.getElementById('cron-input').value = expression;
+            
+            updateNextRuns();
+        }
+
+        // 设置预设
+        function setPreset(expression) {
+            document.getElementById('cron-expression').textContent = expression;
+            document.getElementById('cron-input').value = expression;
+            parseExpression();
+        }
+
+        // 复制表达式
+        function copyExpression() {
+            const expr = document.getElementById('cron-expression').textContent;
+            navigator.clipboard.writeText(expr).then(() => {
+                const feedback = document.getElementById('copyFeedback');
+                feedback.textContent = i18n[currentLang].copied;
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 2000);
+            });
+        }
+
+        // 计算下次执行时间
+        function getNextRuns(expression, count = 10) {
+            const runs = [];
+            let date = new Date();
+            date.setSeconds(0, 0);
+            
+            for (let i = 0; i < 100 && runs.length < count; i++) {
+                date = new Date(date.getTime() + 60 * 1000); // 下一分钟
+                
+                if (matchesCron(date, expression)) {
+                    runs.push(new Date(date));
+                }
+            }
+            
+            return runs;
+        }
+
+        // 检查日期是否匹配 Cron 表达式
+        function matchesCron(date, expression) {
+            const parts = expression.trim().split(/\s+/);
+            if (parts.length !== 5) return false;
+            
+            const [min, hour, dom, month, dow] = parts;
+            
+            return (
+                matchesField(date.getMinutes(), min, 0, 59) &&
+                matchesField(date.getHours(), hour, 0, 23) &&
+                matchesField(date.getDate(), dom, 1, 31) &&
+                matchesField(date.getMonth() + 1, month, 1, 12) &&
+                matchesField(date.getDay(), dow, 0, 6)
+            );
+        }
+
+        // 检查单个字段是否匹配
+        function matchesField(value, field, min, max) {
+            if (field === '*') return true;
+            
+            // 处理步进值 */n
+            if (field.includes('/')) {
+                const [range, step] = field.split('/');
+                const stepNum = parseInt(step);
+                if (range === '*') {
+                    return value % stepNum === 0;
+                }
+                const [start, end] = range.split('-').map(Number);
+                return value >= start && value <= end && value % stepNum === 0;
+            }
+            
+            // 处理列表 1,3,5
+            if (field.includes(',')) {
+                return field.split(',').some(f => matchesField(value, f.trim(), min, max));
+            }
+            
+            // 处理范围 1-5
+            if (field.includes('-')) {
+                const [start, end] = field.split('-').map(Number);
+                return value >= start && value <= end;
+            }
+            
+            // 精确匹配
+            return parseInt(field) === value;
+        }
+
+        // 更新下次执行时间显示
+        function updateNextRuns() {
+            const expression = document.getElementById('cron-expression').textContent;
+            const runs = getNextRuns(expression, 10);
+            
+            const container = document.getElementById('next-runs');
+            
+            if (runs.length === 0) {
+                container.innerHTML = `<div style="color:#666; font-size:0.9rem;">No upcoming runs found in the next 100 hours.</div>`;
+                return;
+            }
+            
+            container.innerHTML = runs.map((run, i) => {
+                const options = { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                const timeStr = run.toLocaleString('en-US', options);
+                return `
+                    <div class="run-item">
+                        <div style="display:flex; align-items:center;">
+                            <span class="run-number">${i + 1}</span>
+                            <span>${timeStr}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 解析表达式
+        function parseExpression() {
+            const input = document.getElementById('cron-input').value.trim();
+            const resultDiv = document.getElementById('parse-result');
+            
+            // 验证表达式
+            const parts = input.split(/\s+/);
+            if (parts.length !== 5) {
+                resultDiv.innerHTML = `
+                    <div class="result-box error">
+                        <div class="label">❌ Invalid Format</div>
+                        <div>A cron expression must have exactly 5 fields.</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 尝试计算下次执行时间
+            const runs = getNextRuns(input, 5);
+            
+            // 生成人类可读的描述
+            const description = describeCron(input);
+            
+            resultDiv.innerHTML = `
+                <div class="result-box success">
+                    <div class="label">✓ Valid Expression</div>
+                    <div style="margin-top:10px;"><strong>${description}</strong></div>
+                </div>
+                ${runs.length > 0 ? `
+                    <div style="margin-top:15px;">
+                        <div style="font-weight:600; margin-bottom:10px; color:#333;">Next 5 executions:</div>
+                        ${runs.slice(0, 5).map((run, i) => {
+                            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                            return `<div style="background:#f8f9fa; padding:8px 12px; border-radius:6px; margin-bottom:5px; font-size:0.9rem;">${i + 1}. ${run.toLocaleString('en-US', options)}</div>`;
+                        }).join('')}
+                    </div>
+                ` : ''}
+            `;
+            
+            // 同时更新主表达式显示
+            document.getElementById('cron-expression').textContent = input;
+            updateNextRuns();
+        }
+
+        // 生成 Cron 表达式的人类可读描述
+        function describeCron(expression) {
+            const parts = expression.trim().split(/\s+/);
+            const [min, hour, dom, month, dow] = parts;
+            
+            const descriptions = [];
+            
+            // 时间描述
+            if (min === '*' && hour === '*') {
+                descriptions.push('Every minute');
+            } else if (min.startsWith('*/')) {
+                descriptions.push(`Every ${min.slice(2)} minutes`);
+            } else if (hour === '*') {
+                descriptions.push(`At minute ${min} of every hour`);
+            } else if (min === '0' && hour === '0') {
+                descriptions.push('At midnight');
+            } else if (min === '0' && hour === '12') {
+                descriptions.push('At noon');
+            } else if (min === '0') {
+                descriptions.push(`At ${hour}:00`);
+            } else {
+                descriptions.push(`At ${hour}:${min.padStart(2, '0')}`);
+            }
+            
+            // 星期描述
+            if (dow !== '*') {
+                if (dow === '1-5') {
+                    descriptions.push('on weekdays (Mon-Fri)');
+                } else if (dow === '0,6' || dow === '6,0') {
+                    descriptions.push('on weekends');
+                } else {
+                    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    if (dow.includes(',')) {
+                        const days = dow.split(',').map(d => dayNames[parseInt(d)]).join(', ');
+                        descriptions.push(`on ${days}`);
+                    } else if (dow.includes('-')) {
+                        const [start, end] = dow.split('-').map(Number);
+                        descriptions.push(`from ${dayNames[start]} to ${dayNames[end]}`);
+                    } else {
+                        descriptions.push(`on ${dayNames[parseInt(dow)]}`);
+                    }
+                }
+            }
+            
+            // 日期描述
+            if (dom !== '*') {
+                descriptions.push(`on day ${dom} of the month`);
+            }
+            
+            // 月份描述
+            if (month !== '*') {
+                const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                if (month.includes(',')) {
+                    const months = month.split(',').map(m => monthNames[parseInt(m)]).join(', ');
+                    descriptions.push(`in ${months}`);
+                } else {
+                    descriptions.push(`in ${monthNames[parseInt(month)]}`);
+                }
+            }
+            
+            return descriptions.join(' ');
+        }
+
+        // 验证表达式
+        function validateExpression() {
+            const input = document.getElementById('cron-input').value.trim();
+            const resultDiv = document.getElementById('parse-result');
+            
+            const parts = input.split(/\s+/);
+            if (parts.length !== 5) {
+                resultDiv.innerHTML = `
+                    <div class="result-box error">
+                        <div class="label">❌ Invalid Format</div>
+                        <div>A cron expression must have exactly 5 fields: minute hour day-of-month month day-of-week</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const [min, hour, dom, mon, dow] = parts;
+            
+            // 基础验证
+            const validations = [
+                { field: 'Minute', value: min, min: 0, max: 59 },
+                { field: 'Hour', value: hour, min: 0, max: 23 },
+                { field: 'Day of Month', value: dom, min: 1, max: 31 },
+                { field: 'Month', value: mon, min: 1, max: 12 },
+                { field: 'Day of Week', value: dow, min: 0, max: 6 }
+            ];
+            
+            const errors = [];
+            
+            validations.forEach(v => {
+                if (v.value !== '*' && !/^(\d+(-\d+)?(,\d+(-\d+)?)*|\*\/?\d*)$/.test(v.value)) {
+                    errors.push(`${v.field}: Invalid format "${v.value}"`);
+                }
+            });
+            
+            if (errors.length > 0) {
+                resultDiv.innerHTML = `
+                    <div class="result-box error">
+                        <div class="label">❌ Validation Failed</div>
+                        <div>${errors.join('<br>')}</div>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="result-box success">
+                        <div class="label">✓ Expression is Valid</div>
+                        <div>This cron expression appears to be correctly formatted.</div>
+                    </div>
+                `;
+                parseExpression();
+            }
+        }
+
+        // 初始化
+        updateExpression();
+        parseExpression();
+    </script>
+</body>
+</html>
